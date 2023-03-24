@@ -6,10 +6,15 @@ enum GameStage {
     case maturity
 }
 
+import SwiftUI
+
+
+
 struct ContentView: View {
     @State private var currentStage: GameStage = .bootstrapping
 
     var body: some View {
+
         NavigationView {
             VStack {
                 switch currentStage {
