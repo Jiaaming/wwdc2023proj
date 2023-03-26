@@ -9,11 +9,8 @@ import Foundation
 import SwiftUI
 
 struct BootstrappingIntro: View {
-    private let columns: [GridItem] = [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ]
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
+
     var body: some View {
         ScrollView {
             
@@ -28,40 +25,36 @@ struct BootstrappingIntro: View {
                     Text(welcome)
                         .font(.custom("Avenir", size: 70)
                             .weight(.bold))
-                        .foregroundColor(.brown)
+                        .foregroundColor(Color("stage1Brown"))
+
                 }
-                
+                Divider()
+                .padding(20)
                 Text(IntroDescription)
-                    .font(.custom("Avenir", size: 30))
+                    .font(.custom("Courier", size: 30))
+                    .foregroundColor(Color("stage1Pink"))
+                
+                Divider()
+                .padding(20)
                 
                 Text("What you need to Do?")
-                    .font(.custom("Avenir", size: 50)
+                    .font(.custom("Courier", size: 50)
                         .weight(.bold))
                     .foregroundColor(Color("stage1Green"))
                 
                           
                 Text(choicesDescription)
                 
-                LazyVGrid(columns: columns, spacing: 20) {
-                    
-                                    Text("Choice")
-                                        .fontWeight(.bold)
-                                    Text("Cost")
-                                        .fontWeight(.bold)
-                                    Text("Reward")
-                                        .fontWeight(.bold)
-                                    
-                                    Text("Selecting a Niche")
-                                    Text("Cost: $X")
-                                    Text("Reward: $Y")
-                                    
-                                    Text("Finding Suppliers")
-                                    Text("Cost: $X")
-                                    Text("Reward: $Y")
-                                    
+                LazyVGrid(columns: columns, spacing: 10) {
+                                ForEach(0..<12) { index in
+                                    let row = index / 4
+                                    let column = index % 4
+                                    Text(introArr[row][column])
+                                        .fontWeight(row == 0 ? .bold : .regular)
+                                        
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                            }
+                            .padding()
                 
                 Divider()
 
@@ -69,8 +62,8 @@ struct BootstrappingIntro: View {
                     .font(.title)
                     .foregroundColor(.pink)
                 Text(riskDescription)
-                Text("Choices Details")
-                    .font(.title)
+                    .foregroundColor(Color("stage1Pink"))
+
                 
 
             }
