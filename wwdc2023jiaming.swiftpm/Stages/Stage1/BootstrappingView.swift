@@ -6,10 +6,12 @@ struct BootstrappingView: View {
     @State private var balloonSize: CGFloat = 100
     @State private var currentMoney: Int = 0
     @State private var overallIncome: Int = 0
-    @State private var P1: Double = 0.10
-    @State private var P2: Double = 0.30
+    private var P1: Double = 0.10
+    private var P2: Double = 0.30
     @State private var showingAlert = false
-    
+    @State private var failTimes: Int = 0
+    @State private var succeedTimes: Int = 0
+    @State private var stopTimes: Int = 0
     @State private var balloonColor: Color = .red
     @State private var currentTurn: Int = 0 {
         didSet {
@@ -36,9 +38,11 @@ struct BootstrappingView: View {
             currentMoney = 0
             currentTurn += 1
             emoji = failEmoji.randomElement()!
+            failTimes += 1
         } else {
             balloonColor = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
             emoji = succeedEmoji.randomElement()!
+            succeedTimes += 1
         }
     }
     
@@ -53,9 +57,11 @@ struct BootstrappingView: View {
             overallIncome -= 100
             currentTurn += 1
             emoji = failEmoji.randomElement()!
+            failTimes += 1
         } else {
             balloonColor = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
             emoji = succeedEmoji.randomElement()!
+            succeedTimes += 1
         }
         
     }
@@ -66,7 +72,7 @@ struct BootstrappingView: View {
         currentMoney = 0
         currentTurn+=1
         balloonSize = 100
-        
+        stopTimes += 1
     }
     
     func gameOver(){
@@ -82,9 +88,6 @@ struct BootstrappingView: View {
                         Button(action: {
                             // Handle left-top button tap
                             showingAlert = true
-                            
-                            
-                            
                         }) {
                             Image(systemName: "arrow.left")
                                 .resizable()
@@ -140,6 +143,9 @@ struct BootstrappingView: View {
                     
                         .frame(width: currentTurn == totalTurns ? 400 : balloonSize, height: currentTurn == totalTurns ? 400 : balloonSize)
                         .animation(.interpolatingSpring(stiffness: 30, damping: 7))
+                        .confettiCannon(counter: $succeedTimes, confettis: [.text("💵"), .text("💶"), .text("💷"), .text("💴")], confettiSize: 20)
+                        .confettiCannon(counter: $failTimes, confettis: [.text("💩")], confettiSize: 20)
+
                     
                 }.frame(width: 280, height: 280)
                 
@@ -156,40 +162,60 @@ struct BootstrappingView: View {
                 }
                 VStack{
                     HStack {
-                        Button(action: {
-                            nicheAction()
-                        }) {
-                            Text("Find Niche")
-                                .padding()
+                        if totalTurns != currentTurn {
+                            Button(action: {
+                                nicheAction()
+                            }) {
+                                Text("Find Niche")
+                                    .padding()
+                            }
+                            .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage1Brown")))
+                            .disabled(currentTurn == totalTurns)
+                            
+                            .padding(20)
+                            Button(action: {
+                                suppliersAction()
+                            }) {
+                                Text("Find suppliers")
+                                    .padding()
+                            }
+                            .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Green")))
+                            .disabled(currentTurn == totalTurns)
                         }
-                        .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage1Brown")))
-                        .disabled(currentTurn == totalTurns)
                         
+                        
+                        
+                    }
+                    
+                    VStack{
+                        if totalTurns != currentTurn {
+                            Button(action: {
+                                stopAction()
+                                counter += 1
+                            }) {
+                                Text("Stop and Save")
+                                    .padding()
+                                
+                            }
+                            .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Pink")))
+                            .disabled(currentTurn == totalTurns)
+                        }
+                        
+                        
+                    }.padding(10)
+                    
+                    if totalTurns == currentTurn {
+                        Button(action: {
+                            // Handle button tap
+                            isGameOver.toggle()
+
+                        }) {
+                            Text("See my Report")
+                                
+                        }
+                        .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Green")))
                         .padding(20)
-                        Button(action: {
-                            suppliersAction()
-                        }) {
-                            Text("Find suppliers")
-                                .padding()
-                        }
-                        .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Green")))
-                        .disabled(currentTurn == totalTurns)
-                        
-                        
                     }
-                    
-                    
-                    Button(action: {
-                        stopAction()
-                        counter += 1
-                    }) {
-                        Text("Stop and Save")
-                            .padding()
-                        
-                    }
-                    .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Pink")))
-                    .disabled(currentTurn == totalTurns)
-                    
                 }
                 
                 
@@ -201,12 +227,11 @@ struct BootstrappingView: View {
             .onAppear {
                 self.showDoc = true
             }
+            
             .sheet(isPresented: $isGameOver) {
                 Stage1GameOverView()
             }
-            .onAppear {
-                self.showDoc = true
-            }
+            
         }
         
     }
