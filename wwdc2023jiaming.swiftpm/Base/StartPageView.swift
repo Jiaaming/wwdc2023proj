@@ -20,10 +20,10 @@ struct StartPageView: View {
                         .fill(Color.white.opacity(0.9))
                         .frame(width: 950, height: 150)
                         
-                    Text("CorporateRisk Tycoon")
-                        .font(.custom("Avenir", size: 90))
-                        .foregroundColor(.blue)
-                        .fontWeight(.bold)
+                    Text("RiskMaster Inc.")
+                        .font(.custom("Courier", size: 90))
+                        .foregroundColor(.black)
+                        //.fontWeight(.bold)
                 }
                 Spacer(minLength: 10)
 
@@ -38,7 +38,7 @@ struct StartPageView: View {
                     }
                         .fullScreenCover(isPresented: $jumpToGame, content: {
                                 //全屏模式
-                                ContentView()
+                                BootstrappingView()
                         })
                         .font(.custom("Courier", size: 25))
                         .foregroundColor(.black)
@@ -54,7 +54,8 @@ struct StartPageView: View {
                     }.navigationBarTitle("首页", displayMode: .inline)//设置标题，并固定到导航中间
                         .sheet(isPresented: $jumpToIntro) {
                             //非全屏模式
-                            ShortIntroductionView()
+                            //ShortIntroductionView()
+                            Stage1MenuView()
                         }
                         .font(.custom("Courier", size: 25))
                         .foregroundColor(.black)

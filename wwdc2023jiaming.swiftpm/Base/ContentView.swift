@@ -15,24 +15,9 @@ struct ContentView: View {
 
     var body: some View {
 
-        NavigationView {
-            VStack {
-                switch currentStage {
-                case .bootstrapping:
-                    BootstrappingView(stageCompleted: {
-                        currentStage = .growth
-                    })
-                case .growth:
-                    GrowthView(stageCompleted: {
-                        currentStage = .maturity
-                    })
-                case .maturity:
-                    MaturityView(stageCompleted: {
-                        currentStage = .maturity
-                    })
-                }
-            }
-        }
+        
+            StartPageView()
+        
 
     }
 }

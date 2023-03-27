@@ -1,19 +1,31 @@
 import SwiftUI
 
 struct BootstrappingView: View {
+    @Environment(\.presentationMode) private var presentationMode
+    
     @State private var balloonSize: CGFloat = 100
     @State private var currentMoney: Int = 0
     @State private var overallIncome: Int = 0
     @State private var P1: Double = 0.10
     @State private var P2: Double = 0.30
-
+    @State private var showingAlert = false
+    
     @State private var balloonColor: Color = .red
-    @State private var currentTurn: Int = 0
+    @State private var currentTurn: Int = 0 {
+        didSet {
+            if currentTurn == totalTurns {
+                isGameOver = true
+            }
+        }
+    }
     private let totalTurns: Int = 20
     @State private var emoji: String = "🙌"
     @State private var isGameOver: Bool = false
+    @State private var showDoc: Bool = false
+    @State var counter:Int = 2
     
-    let stageCompleted: () -> Void
+    
+    
     
     func nicheAction(){
         balloonSize += 25
@@ -54,32 +66,79 @@ struct BootstrappingView: View {
         currentMoney = 0
         currentTurn+=1
         balloonSize = 100
+        
     }
     
+    func gameOver(){
+        counter += 1
+        
+    }
     var body: some View {
         TabView {
-            BootstrappingIntro()
-                .tabItem {
-                    Image(systemName: "scroll")
-                    Text("Stage1 Intro")
-                }
-            
-            
             
             VStack {
-                ProgressView(value: Float(currentTurn), total: Float(totalTurns))
-                                .padding(.horizontal, 50)
+                VStack {
+                    HStack {
+                        Button(action: {
+                            // Handle left-top button tap
+                            showingAlert = true
+                            
+                            
+                            
+                        }) {
+                            Image(systemName: "arrow.left")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding()
+                        }
+                        .alert(isPresented: $showingAlert) {
+                            Alert(
+                                title: Text("Are you sure?"),
+                                message: Text("You will lose the current progress."),
+                                primaryButton: .destructive(Text("Confirm")) {
+                                    presentationMode.wrappedValue.dismiss()
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                        Spacer()
+                        Text("You have done \(currentTurn)/\(totalTurns) rounds")
+                        Spacer()
+                        Button(action: {
+                            // Handle button tap
+                            showDoc.toggle()
+                        }) {
+                            Image(systemName: "doc.text")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding()
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    ProgressView(value: Float(currentTurn), total: Float(totalTurns))
+                        .padding(EdgeInsets(top: 10, leading: 15, bottom: 5, trailing: 15))
+                }
+                
+                
                 Spacer()
                 
                 ZStack(alignment: .center){
+                    if currentTurn == totalTurns {
+                        Text("Congrats! 🎉")
+                            .font(.system(size: 50))
+                            .confettiCannon(counter: $counter)
+                    }
+                    
                     Circle()
-                        .fill(balloonColor)
-                        .frame(width: balloonSize, height: balloonSize)
+                        .fill(currentTurn == totalTurns ? .green : balloonColor)
+                        .frame(width: currentTurn == totalTurns ? 400 : balloonSize, height: currentTurn == totalTurns ? 400 : balloonSize)
                         .animation(.interpolatingSpring(stiffness: 30, damping: 7))
                     
-                    Text(emoji)
-                        .font(.system(size: balloonSize*0.5))
-                        .frame(width: balloonSize, height: balloonSize)
+                    Text(currentTurn == totalTurns ? "🎉" : emoji)
+                        .font(.system(size: currentTurn == totalTurns ? 100 : balloonSize * 0.5))
+                    
+                        .frame(width: currentTurn == totalTurns ? 400 : balloonSize, height: currentTurn == totalTurns ? 400 : balloonSize)
                         .animation(.interpolatingSpring(stiffness: 30, damping: 7))
                     
                 }.frame(width: 280, height: 280)
@@ -103,9 +162,9 @@ struct BootstrappingView: View {
                             Text("Find Niche")
                                 .padding()
                         }
-                        .background(Capsule()
-                            .stroke(gradient, lineWidth: 2)
-                            .saturation(1.8))
+                        .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage1Brown")))
+                        .disabled(currentTurn == totalTurns)
+                        
                         .padding(20)
                         Button(action: {
                             suppliersAction()
@@ -113,9 +172,8 @@ struct BootstrappingView: View {
                             Text("Find suppliers")
                                 .padding()
                         }
-                        .background(Capsule()
-                            .stroke(gradient, lineWidth: 2)
-                            .saturation(1.8))
+                        .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Green")))
+                        .disabled(currentTurn == totalTurns)
                         
                         
                     }
@@ -123,43 +181,33 @@ struct BootstrappingView: View {
                     
                     Button(action: {
                         stopAction()
+                        counter += 1
                     }) {
-                        Text("Stop")
+                        Text("Stop and Save")
                             .padding()
-                    }
-                    .background(Capsule()
-                        .stroke(gradient, lineWidth: 2)
-                        .saturation(1.8))
-                    
-                    
-                    Button("See my Report"){
-                        self.isGameOver.toggle()
-                    }
-                        .sheet(isPresented: $isGameOver) {
-                            Stage1GameOverView()
-                                .frame(width: 300, height: 500) // Set the desired width and height here
-                        }
                         
-
-                        .font(.custom("Courier", size: 25))
-                        .foregroundColor(.black)
+                    }
+                    .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Pink")))
+                    .disabled(currentTurn == totalTurns)
+                    
                 }
                 
                 
                 Spacer()
-            
+                
+            }.sheet(isPresented: $showDoc) {
+                Stage1MenuView()
             }
-                .tabItem {
-                    Image(systemName: "network")
-                    Text("Stage1 Game")
-                }
+            .onAppear {
+                self.showDoc = true
+            }
+            .sheet(isPresented: $isGameOver) {
+                Stage1GameOverView()
+            }
+            .onAppear {
+                self.showDoc = true
+            }
         }
         
     }
 }
-
-//struct BootstrappingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
