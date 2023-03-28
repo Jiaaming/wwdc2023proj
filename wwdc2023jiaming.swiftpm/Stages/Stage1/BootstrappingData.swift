@@ -7,6 +7,15 @@
 
 import Foundation
 import SwiftUI
+struct RoundData {
+    var successCount: Int = 0
+    
+    mutating func updateSuccess(success: Bool) {
+        if success {
+            successCount += 1
+        }
+    }
+}
 let welcome = "Welcome to the Bootstrapping stage!"
 let IntroDescription = """
 🥳This is where your startup journey begins.

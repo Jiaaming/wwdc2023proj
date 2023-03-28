@@ -69,6 +69,8 @@ struct BootstrappingIntro: View {
             }
             .padding()
         }
+        .background(Color.white)
+                .edgesIgnoringSafeArea(.all)
     }
 }
 

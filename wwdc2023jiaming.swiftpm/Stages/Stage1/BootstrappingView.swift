@@ -1,5 +1,7 @@
 import SwiftUI
 
+
+
 struct BootstrappingView: View {
     @Environment(\.presentationMode) private var presentationMode
     
@@ -9,14 +11,29 @@ struct BootstrappingView: View {
     private var P1: Double = 0.10
     private var P2: Double = 0.30
     @State private var showingAlert = false
+    
     @State private var failTimes: Int = 0
     @State private var succeedTimes: Int = 0
+    @State private var opt1FailTimes: Int = 0
+    @State private var opt1SucceedTimes: Int = 0
+    @State private var opt2FailTimes: Int = 0
+    @State private var opt2SucceedTimes: Int = 0
     @State private var stopTimes: Int = 0
+    //@State private var eachRoundsLastArray: [Int]
+    
+    
     @State private var balloonColor: Color = .red
+    @State private var startTime: Date? = nil
+    @State private var elapsedTime: Double? = 0.0
     @State private var currentTurn: Int = 0 {
         didSet {
             if currentTurn == totalTurns {
-                isGameOver = true
+                
+                let endTime = Date()
+                elapsedTime = endTime.timeIntervalSince(startTime!)
+                
+                // Reset the state
+                startTime = nil
             }
         }
     }
@@ -27,58 +44,86 @@ struct BootstrappingView: View {
     @State var counter:Int = 2
     
     
+    @State private var roundsData: [RoundData] = Array(repeating: RoundData(), count: 20)
+    @State private var currentRound: Int = 0
     
     
+    func startCountTime(){
+        if startTime == nil {
+            startTime = Date()
+        }
+    }
     func nicheAction(){
+        startCountTime()
         balloonSize += 25
         currentMoney += 50
         let randomValue = Double.random(in: 0...1)
-        if randomValue <= P1 {
+        let fail = randomValue <= P1
+        if fail { // fail
             balloonSize = 100
             currentMoney = 0
             currentTurn += 1
             emoji = failEmoji.randomElement()!
+            opt1FailTimes += 1
             failTimes += 1
         } else {
             balloonColor = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
             emoji = succeedEmoji.randomElement()!
+            opt1SucceedTimes += 1
             succeedTimes += 1
         }
+        
+        roundsData[currentRound].updateSuccess(success: !fail)
+        if fail {
+            currentRound += 1
+        }
+        
     }
     
     func suppliersAction(){
         balloonSize += 75
         currentMoney += 200
+        startCountTime()
         
         let randomValue = Double.random(in: 0...1)
-        if randomValue <= P2 {
+        let fail = randomValue <= P2
+        if fail { //fail
             balloonSize = 100
             currentMoney = 0
             overallIncome -= 100
             currentTurn += 1
             emoji = failEmoji.randomElement()!
+            opt2FailTimes += 1
             failTimes += 1
         } else {
             balloonColor = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
             emoji = succeedEmoji.randomElement()!
+            opt2SucceedTimes += 1
             succeedTimes += 1
         }
+        
+        
+        roundsData[currentRound].updateSuccess(success: !fail)
+        if fail {
+            currentRound += 1
+        }
+        
         
     }
     
     func stopAction(){
+        startCountTime()
         emoji = resetEmoji
         overallIncome += currentMoney
         currentMoney = 0
         currentTurn+=1
         balloonSize = 100
         stopTimes += 1
+        currentRound += 1
     }
     
-    func gameOver(){
-        counter += 1
-        
-    }
+    
+    
     var body: some View {
         TabView {
             
@@ -145,7 +190,7 @@ struct BootstrappingView: View {
                         .animation(.interpolatingSpring(stiffness: 30, damping: 7))
                         .confettiCannon(counter: $succeedTimes, confettis: [.text("💵"), .text("💶"), .text("💷"), .text("💴")], confettiSize: 20)
                         .confettiCannon(counter: $failTimes, confettis: [.text("💩")], confettiSize: 20)
-
+                    
                     
                 }.frame(width: 280, height: 280)
                 
@@ -208,10 +253,10 @@ struct BootstrappingView: View {
                         Button(action: {
                             // Handle button tap
                             isGameOver.toggle()
-
+                            
                         }) {
                             Text("See my Report")
-                                
+                            //String(describing: elapsedTime)
                         }
                         .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Green")))
                         .padding(20)
@@ -229,10 +274,23 @@ struct BootstrappingView: View {
             }
             
             .sheet(isPresented: $isGameOver) {
-                Stage1GameOverView()
+                Stage1GameOverView(
+                    elapsedTime: self.elapsedTime ?? 0.0,
+                    succeedTimes: self.succeedTimes,
+                    failTimes: self.failTimes,
+                    opt1SucceedTimes: self.opt1SucceedTimes,
+                    opt1FailTimes: self.opt1FailTimes,
+                    opt2SucceedTimes: self.opt1SucceedTimes,
+                    opt2FailTimes: self.opt1FailTimes,
+                    stopTimes: self.stopTimes,
+                    eachRoundsLastArray: self.roundsData.map { $0.successCount }
+                )
             }
+            .background(Color.white) 
+                    
             
         }
         
+            
     }
 }
