@@ -8,10 +8,10 @@ struct Stage1MenuView: View {
             VStack{
                 HStack{
                     Image("stage1")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 200, height: 200)
-
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 200)
+                    
                     Text(welcome)
                         .font(.custom("Avenir", size: 50)
                             .weight(.bold))
@@ -19,56 +19,56 @@ struct Stage1MenuView: View {
                         .padding(10)
                 }
                 Divider()
-                .padding(20)
+                    .padding(20)
                 Text(IntroDescription)
                     .font(.custom("Courier", size: 30))
-                    .foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
-                .tag(0)
+            .tag(0)
             
             
             VStack{
-                Text("Option 1: Finding Niche")
+                Text("Option 1: Steady Orchard Growth")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
                     .foregroundColor(Color("stage1Brown"))
                     .padding(10)
                 Divider()
-                .padding(20)
+                    .padding(20)
                 Text(opt1Description)
                     .font(.custom("Courier", size: 30))
-                    .foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
             .tag(1)
             
             VStack{
-                Text("Option 2: Finding Suppliers")
+                Text("Option 2: Operation Quantum Leap")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Brown"))
+                    .foregroundColor(Color("stage1Green"))
                     .padding(10)
                 Divider()
-                .padding(20)
+                    .padding(20)
                 Text(opt2Description)
                     .font(.custom("Courier", size: 30))
-                    .foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
             .tag(2)
             
             VStack{
-                Text("Ending a Round")
+                Text("Ending a Round: Harvest Profits")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Brown"))
+                    .foregroundColor(Color("stage1Pink"))
                     .padding(10)
                 Divider()
-                .padding(20)
+                    .padding(20)
                 Text(endDescription)
                     .font(.custom("Courier", size: 30))
-                    .foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
             .tag(3)
@@ -79,10 +79,10 @@ struct Stage1MenuView: View {
                     .foregroundColor(Color("stage1Brown"))
                     .padding(10)
                 Divider()
-                .padding(20)
+                    .padding(20)
                 Text(goalDescription)
                     .font(.custom("Courier", size: 30))
-                    .foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
             .tag(4)
@@ -92,21 +92,35 @@ struct Stage1MenuView: View {
                     .font(.custom("Courier", size: 50)
                         .weight(.bold))
                     .foregroundColor(Color("stage1Green"))
+                Divider()
                 
-                    .padding(30)
-                
-                LazyVGrid(columns: columns, spacing: 10) {
-                                ForEach(0..<12) { index in
-                                    let row = index / 4
-                                    let column = index % 4
-                                    Text(introArr[row][column])
-                                        .fontWeight(row == 0 ? .bold : .regular)
-                                        
-                                }
-                            }
-                            .padding()
+                    .padding(20)
+                Text(lastDescription)
+                    .font(.custom("Courier", size: 30))
+                    //.foregroundColor(Color("stage1Pink"))
+                    .padding(20)
             }
-                .tag(5)
+            .tag(5)
+            //            VStack{
+            //                Text("Operation Comparison")
+            //                    .font(.custom("Courier", size: 50)
+            //                        .weight(.bold))
+            //                    .foregroundColor(Color("stage1Green"))
+            //
+            //                    .padding(30)
+            //
+            //                LazyVGrid(columns: columns, spacing: 10) {
+            //                                ForEach(0..<12) { index in
+            //                                    let row = index / 4
+            //                                    let column = index % 4
+            //                                    Text(introArr[row][column])
+            //                                        .fontWeight(row == 0 ? .bold : .regular)
+            //
+            //                                }
+            //                            }
+            //                            .padding()
+            //            }
+            //                .tag(5)
             
             
         }
@@ -115,8 +129,8 @@ struct Stage1MenuView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct Stage1MenuView_Previews: PreviewProvider {
+    static var previews: some View {
+        Stage1MenuView()
+    }
+}

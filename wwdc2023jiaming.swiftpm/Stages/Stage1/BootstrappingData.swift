@@ -16,13 +16,19 @@ struct RoundData {
         }
     }
 }
-let welcome = "Welcome to the Bootstrapping stage!"
+let welcome = "Welcome to your Apple Adventures Part 1!"
 let IntroDescription = """
-🥳This is where your startup journey begins.
+Imagine that you step into the shoes of the CEO of Apple, one of the world's most innovative and successful technology companies.
 
-You start with 0 dollars and will play through 10 rounds.
+As you embark on this thrilling journey, you'll be tasked with making critical decisions that will shape the future of the company and its groundbreaking products!
+"""
 
-In each round, you'll have the chance to increase your earnings by making a choice between two options.
+let lastDescription = """
+You start with 0 dollars and will play through 20 rounds.
+
+At the end of the game, you will receive an accurate review
+
+Are you ready to accept the challenge and steer Apple towards a prosperous future? 🥳Put on your CEO hat and begin your Apple Adventures today! Good luck!
 """
 
 let choicesDescription = "Focus on basic business decisions like selecting a niche, finding suppliers, and creating a minimum viable product (MVP)."
@@ -34,22 +40,26 @@ let goalDescription = """
 😲Will you take risks for big rewards or play it safe to avoid losses? It's up to you! Good luck, and have fun!
 """
 let opt1Description = """
-🤤The first option gives you a 90% chance of success.
+A low-risk approach that nurture existing products and maintain company stability.
 
-😃If you succeed, you'll earn 50 dollars for this round, and your total earnings will increase.
+🤤 90% chance of success
 
-🥺If you fail, you won't lose any money, but you'll earn nothing for this round and move on to the next round.
+😃 Success earns $50 for the round, increasing your total earnings
+
+🥺 Failure results in no loss, but no earnings for the round, and you'll proceed to the next round
 """
 let opt2Description = """
-🤩The second option is a bit riskier, with a 60% chance of success.
+A high-risk, high-reward strategy that  innovate and venture into new markets or technologies.
 
-😃If you succeed, you'll earn a whopping 200 dollars for this round!
+🤩 60% chance of success
 
-🥺However, if you fail, you'll lose 100 dollars from your total earnings, and then move on to the next round.
+😃 Success earns a huge $200 for the round
+
+🥺 Failure results in a $100 loss from your total earnings, and you'll advance to the next round
 """
 
 let endDescription = """
-🤔At any point during a round, you can choose to end the round without attempting either option.
+🤔At any point during a round, you can choose "Harvest Profits" to end the round without attempting either option.
 
 🫣This means you won't earn any money for the round, but you also won't lose any money. Then, you'll proceed to the next round.
 """

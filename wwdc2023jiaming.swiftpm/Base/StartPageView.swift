@@ -9,7 +9,7 @@ struct StartPageView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .edgesIgnoringSafeArea(.all)
-                            .opacity(0.8)
+                            .opacity(0.7)
             //Color.white.edgesIgnoringSafeArea(.all)
             
             VStack {
@@ -18,12 +18,23 @@ struct StartPageView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.white.opacity(0.9))
-                        .frame(width: 950, height: 150)
-                        
-                    Text("RiskMaster Inc.")
-                        .font(.custom("Courier", size: 90))
-                        .foregroundColor(.black)
-                        //.fontWeight(.bold)
+                        .frame(width: 950, height: 350)
+                     
+                    VStack{
+                        Text("")
+                            .font(.custom("Courier", size: 120))
+                        Text("Apple Ascendancy")
+                            .font(.custom("Courier", size: 90))
+                            .foregroundColor(.black)
+                            //.fontWeight(.bold)
+                            
+                        Text("Mastermind at the Helm")
+                            .font(.custom("Courier", size: 60))
+                            .foregroundColor(.black)
+                            //.fontWeight(.bold)
+                            .padding(-5)
+                    }
+                    
                 }
                 Spacer(minLength: 10)
 

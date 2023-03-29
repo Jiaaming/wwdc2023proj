@@ -74,8 +74,8 @@ struct BootstrappingIntro: View {
     }
 }
 
-//struct BootstrappingIntro_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BootstrappingIntro()
-//    }
-//}
+struct BootstrappingIntro_Previews: PreviewProvider {
+    static var previews: some View {
+        BootstrappingIntro()
+    }
+}

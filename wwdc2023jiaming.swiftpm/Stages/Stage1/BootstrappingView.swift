@@ -211,7 +211,7 @@ struct BootstrappingView: View {
                             Button(action: {
                                 nicheAction()
                             }) {
-                                Text("Find Niche")
+                                Text("Steady Orchard Growth")
                                     .padding()
                             }
                             .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage1Brown")))
@@ -221,7 +221,7 @@ struct BootstrappingView: View {
                             Button(action: {
                                 suppliersAction()
                             }) {
-                                Text("Find suppliers")
+                                Text("Operation Quantum Leap")
                                     .padding()
                             }
                             .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Green")))
@@ -238,7 +238,7 @@ struct BootstrappingView: View {
                                 stopAction()
                                 counter += 1
                             }) {
-                                Text("Stop and Save")
+                                Text("Harvest Profits")
                                     .padding()
                                 
                             }
@@ -292,5 +292,10 @@ struct BootstrappingView: View {
         }
         
             
+    }
+}
+struct BootstrappingView_Previews: PreviewProvider {
+    static var previews: some View {
+        BootstrappingView()
     }
 }

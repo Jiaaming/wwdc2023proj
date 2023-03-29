@@ -1,107 +1,93 @@
-//
-//  SecondPartView.swift
-//  My App
-//
-//  Created by 刘佳铭 on 2023/3/23.
-//
-
 import SwiftUI
 
 struct GrowthView: View {
-    @State private var companySize: CGFloat = 100
-    @State private var currentMoney: Int = 0
-    @State private var overallIncome: Int = 0
-    @State private var riskMeter: Double = 0.05
-    @State private var companyName: String = "Your Company"
-    let stageCompleted: () -> Void
-
-    let decisionButtons = [
-        ("Invest in R&D", 0.1, 100),
-        ("Hire Employees", 0.05, 50),
-        ("Cut Costs", 0.01, 10),
-        ("Launch New Product", 0.2, 200)
-    ]
+    @State private var cards = [(Int, String)](repeating: (0, ""), count: 3)
+    @State private var selectedCards = [(Int, String)](repeating: (0, ""), count: 5)
+    @State private var selectedIndex = 0
+    @State private var selectionConfirmed = false
+    @State private var totalValue = 0
+    @State private var selectionResult: String? = nil
     
+    private func generateRandomCards() {
+        for i in 0..<3 {
+            cards[i] = (Int.random(in: 5...15), emojis.randomElement()!)
+        }
+    }
+    
+    private func selectCard(at index: Int) {
+        selectedIndex = index
+        selectionConfirmed = true
+    }
+    
+    private func confirmSelection() {
+        if selectionConfirmed {
+            for i in 0..<selectedCards.count {
+                if selectedCards[i].0 == 0 {
+                    let successProbability = 100 - 2 * cards[selectedIndex].0
+                    if Int.random(in: 1...100) <= successProbability {
+                        selectedCards[i] = cards[selectedIndex]
+                        totalValue += selectedCards[i].0
+                        selectionResult = "Success!"
+                    } else {
+                        selectionResult = "Fail"
+                    }
+                    break
+                }
+            }
+        }
+        generateRandomCards()
+        selectionConfirmed = false
+    }
+    
+     
     var body: some View {
         VStack {
-            Text(companyName)
-                .font(.largeTitle)
-                .bold()
-                .padding(.top)
+            if let result = selectionResult {
+                Text(result)
+                    .font(.title)
+                    .foregroundColor(result == "Success!" ? .green : .red)
+                    .padding(.bottom, 10)
+            }
+            HStack {
+                ForEach(0..<3) { index in
+                    CardView(value: cards[index].0, isSelected: selectedIndex == index, emoji: cards[index].1, width: 300, height: 450)
+                        .onTapGesture {
+                            selectCard(at: index)
+                        }
+                    
+                }
+            }
+            .padding(.top, 50)
+            
+            Button(action: confirmSelection) {
+                Text("Confirm Selection")
+            }
+            .disabled(!selectionConfirmed)
+            .padding(.top, 20)
             
             HStack {
-                VStack(alignment: .leading) {
-                    Text("Current Money: $\(currentMoney)")
-                    Text("Overall Income: $\(overallIncome)")
+                ForEach(0..<selectedCards.count) { index in
+                    CardView(value: selectedCards[index].0, isSelected: false, emoji: selectedCards[index].1, width: 150, height: 225)
                 }
-                .padding(.leading)
-                
-                Spacer()
-                
-                VStack(alignment: .trailing) {
-                    Text("Risk Meter:")
-                    ProgressBar(value: $riskMeter)
-                        .frame(height: 20)
-                }
-                .padding(.trailing)
             }
-            .padding(.bottom)
+            .padding(.top, 20)
             
-            Spacer()
-            
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.blue)
-                .frame(width: companySize, height: companySize)
-                .padding(.bottom)
-            
-            Spacer()
-            
-            VStack {
-                ForEach(decisionButtons, id: \.0) { decision in
-                    Button(decision.0) {
-                        riskMeter = decision.1
-                        let randomValue = Double.random(in: 0...1)
-                        if randomValue <= riskMeter {
-                            companySize = companySize - CGFloat(decision.2/5)
-                            currentMoney -= decision.2
-                        } else {
-                            companySize = companySize + CGFloat(decision.2/5)
-                            currentMoney += decision.2
-                        }
-                    }
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding(.bottom)
-                }
-                Button("Complete Stage") {
-                                stageCompleted()
-                            }
+            Button(action: generateRandomCards) {
+                Text("Recreate Cards")
             }
-            .padding(.bottom)
+            .padding(.top, 20)
+            
+            Text("Total Value: \(totalValue)")
+                .padding(.top, 20)
+        }
+        .onAppear {
+            generateRandomCards()
         }
     }
 }
 
-struct ProgressBar: View {
-    @Binding var value: Double
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.gray.opacity(0.3))
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.green)
-                    .frame(width: CGFloat(value) * geometry.size.width)
-            }
-        }
+struct GrowthView_Previews: PreviewProvider {
+    static var previews: some View {
+        GrowthView()
     }
 }
-
-//struct GrowthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GrowthView()
-//    }
-//}
