@@ -10,7 +10,6 @@ struct BootstrappingView: View {
     @State private var overallIncome: Int = 0
     private var P1: Double = 0.10
     private var P2: Double = 0.30
-    @State private var showingAlert = false
     
     @State private var failTimes: Int = 0
     @State private var succeedTimes: Int = 0
@@ -20,7 +19,8 @@ struct BootstrappingView: View {
     @State private var opt2SucceedTimes: Int = 0
     @State private var stopTimes: Int = 0
     //@State private var eachRoundsLastArray: [Int]
-    
+    @State var jumpToStage2 = false
+
     
     @State private var balloonColor: Color = .red
     @State private var startTime: Date? = nil
@@ -41,6 +41,8 @@ struct BootstrappingView: View {
     @State private var emoji: String = "🙌"
     @State private var isGameOver: Bool = false
     @State private var showDoc: Bool = false
+    @State private var showingAlert = false
+
     @State var counter:Int = 2
     
     
@@ -250,16 +252,30 @@ struct BootstrappingView: View {
                     }.padding(10)
                     
                     if totalTurns == currentTurn {
-                        Button(action: {
-                            // Handle button tap
-                            isGameOver.toggle()
+                        VStack{
+                            Button(action: {
+                                // Handle button tap
+                                isGameOver.toggle()
+                                
+                            }) {
+                                Text("See my Report")
+                                //String(describing: elapsedTime)
+                            }
+                            .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Green")))
+                            .padding(20)
                             
-                        }) {
-                            Text("See my Report")
-                            //String(describing: elapsedTime)
+                            Button("> Step to the next Part!"){
+                                self.jumpToStage2.toggle()
+
+                            }
+                                .fullScreenCover(isPresented: $jumpToStage2, content: {
+                                        //全屏模式
+                                        GrowthView()
+                                })
+                                .font(.custom("Courier", size: 25))
+                                .foregroundColor(.black)
                         }
-                        .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Green")))
-                        .padding(20)
+                        
                     }
                 }
                 

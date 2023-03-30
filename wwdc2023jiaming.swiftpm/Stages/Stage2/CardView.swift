@@ -14,20 +14,27 @@ struct CardView: View {
     var width: CGFloat
     var height: CGFloat
     var body: some View {
+        ZStack {
             RoundedRectangle(cornerRadius: 10)
-            .frame(width: width, height: height)
-            .overlay(
-                    VStack {
-                        Text(emoji)
-                            .font(.system(size:height/2))
-                        Text("\(value)")
-                            .font(.system(size:width/3))
-                            
-                    }
-                    .foregroundColor(.white)
-                )
-                .foregroundColor(isSelected ? Color("stage1Green") : .gray)
+                .fill(isSelected ? Color("stage1Green") : .white) // Change fill color based on isSelected
+            
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 2)
+                .shadow(color: Color.black.opacity(0.3), radius: 2, x: 2, y: 2)
         }
+        .frame(width: width, height: height)
+        .overlay(
+            VStack {
+                Text(emoji)
+                    .font(.system(size:height/2))
+                Text("\(value)")
+                    .font(.system(size:width/3))
+                
+            }
+                .foregroundColor(.black)
+        )
+        
+    }
 }
 
 struct CardView_Previews: PreviewProvider {

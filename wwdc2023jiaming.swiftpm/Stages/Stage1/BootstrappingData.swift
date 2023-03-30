@@ -16,52 +16,55 @@ struct RoundData {
         }
     }
 }
-let welcome = "Welcome to your Apple Adventures Part 1!"
+let welcome = "Welcome to iCEO: The Future of Apple! part(1/2)"
+let welcome2 = """
+In this game, you'll take on the role of Apple's CEO, making strategic decisions to steer the company towards unprecedented success!
+
+Are you ready to walk in the footsteps of tech giants like Steve Jobs and Tim Cook? Let's get started!
+"""
+
 let IntroDescription = """
-Imagine that you step into the shoes of the CEO of Apple, one of the world's most innovative and successful technology companies.
+In each round, you can choose between two types of operations: the "MacSafe" and the "iRisky."
 
-As you embark on this thrilling journey, you'll be tasked with making critical decisions that will shape the future of the company and its groundbreaking products!
+The game consists of 20 exciting rounds, where you'll face unique challenges and make crucial choices to maximize the company's earnings.
 """
 
-let lastDescription = """
-You start with 0 dollars and will play through 20 rounds.
-
-At the end of the game, you will receive an accurate review
-
-Are you ready to accept the challenge and steer Apple towards a prosperous future? 🥳Put on your CEO hat and begin your Apple Adventures today! Good luck!
-"""
-
-let choicesDescription = "Focus on basic business decisions like selecting a niche, finding suppliers, and creating a minimum viable product (MVP)."
-
-let riskDescription = "Low to moderate risks, with the possibility of setbacks like supplier issues or initial product failure."
-let goalDescription = """
-🙌The goal of the game is to make the best decisions to maximize your earnings over the 10 rounds.
-
-😲Will you take risks for big rewards or play it safe to avoid losses? It's up to you! Good luck, and have fun!
-"""
 let opt1Description = """
-A low-risk approach that nurture existing products and maintain company stability.
+The MacSafe option represents a low-risk, low-reward strategy, with a $50 return and a 90% success rate.
 
-🤤 90% chance of success
-
-😃 Success earns $50 for the round, increasing your total earnings
-
-🥺 Failure results in no loss, but no earnings for the round, and you'll proceed to the next round
+Think of it as a trusty MacBook charger—steady and reliable!
 """
+
 let opt2Description = """
-A high-risk, high-reward strategy that  innovate and venture into new markets or technologies.
+The iRisky option is your high-risk, high-reward play, with a whopping $200 return but only a 60% success rate.
 
-🤩 60% chance of success
+This bold move is like launching a groundbreaking new product, such as the original iPhone, which could either revolutionize the industry or flop spectacularly.
+"""
 
-😃 Success earns a huge $200 for the round
+let alarmDescription = """
+If you succeed in your chosen operation, your earnings will be added to a temporary income pool.
 
-🥺 Failure results in a $100 loss from your total earnings, and you'll advance to the next round
+⚠️But beware, if you fail, you'll lose all the earnings from that round and move on to the next challenge, with your tail between your legs.
 """
 
 let endDescription = """
-🤔At any point during a round, you can choose "Harvest Profits" to end the round without attempting either option.
+If you're feeling cautious, you can choose to end the round early and add your temporary earnings to your total income.
 
-🫣This means you won't earn any money for the round, but you also won't lose any money. Then, you'll proceed to the next round.
+Think of it as playing it safe with a tried-and-true product update, like the ever-popular iPhone SE.
+"""
+
+let goalDescription = """
+Your ultimate goal is to maximize your total earnings over 20 rounds.
+
+The more you earn, the more you can invest in developing cutting-edge products and services, making Apple an even more dominant force in the tech world!
+"""
+
+let lastDescription = """
+So, future iCEO, are you ready to take the reins and make your mark on Apple's legacy?
+
+Channel your inner Steve Jobs, don your black turtleneck, and prepare to make decisions that will shape the company's future.
+
+Good luck!
 """
 
 let introArr: [[String]] = [

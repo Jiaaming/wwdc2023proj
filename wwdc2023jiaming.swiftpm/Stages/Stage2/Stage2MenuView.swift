@@ -1,48 +1,48 @@
+//
+//  File.swift
+//  
+//
+//  Created by 刘佳铭 on 2023/3/29.
+//
+
 import SwiftUI
 
-struct Stage1MenuView: View {
+struct Stage2MenuView: View {
     @State private var selectedTab = 0
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     var body: some View {
         TabView(selection: $selectedTab) {
             VStack{
                 HStack{
-                    Image("stage1")
+                    Image("stage2")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 200, height: 200)
                     
-                    Text(welcome)
+                    Text("Welcome to \"iCEO\": Future of Apple!")
                         .font(.custom("Avenir", size: 50)
                             .weight(.bold))
-                        .foregroundColor(Color("stage1Brown"))
+                        .foregroundColor(Color("stage2Blue"))
                         .padding(10)
                 }
                 Divider()
                     .padding(20)
-                Text(welcome2)
+                Text(s1)
                     .font(.custom("Courier", size: 30))
-                    //.foregroundColor(Color("stage1Pink"))
+                    //.foregroundColor(Color("stage2Blue"))
                     .padding(20)
             }
             .tag(0)
-            
+        
             VStack{
-                HStack{
-                    Image("stage1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                    
-                    Text(welcome)
-                        .font(.custom("Avenir", size: 50)
-                            .weight(.bold))
-                        .foregroundColor(Color("stage1Brown"))
-                        .padding(10)
-                }
+                Text("Task Overview")
+                    .font(.custom("Avenir", size: 50)
+                        .weight(.bold))
+                    .foregroundColor(Color("stage2Blue"))
+                    .padding(10)
                 Divider()
                     .padding(20)
-                Text(IntroDescription)
+                Text(s3)
                     .font(.custom("Courier", size: 30))
                     //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
@@ -50,29 +50,35 @@ struct Stage1MenuView: View {
             .tag(1)
             
             VStack{
-                Text("Option 1: -MacSafe-")
+                Text("Selection Criteria: iScore")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Brown"))
+                    .foregroundColor(Color("stage2Pink"))
                     .padding(10)
                 Divider()
                     .padding(20)
-                Text(opt1Description)
-                    .font(.custom("Courier", size: 30))
-                    //.foregroundColor(Color("stage1Pink"))
+                Text(s4)
+                    .font(.custom("Courier", size: 30) )
                     .padding(20)
+                    //.foregroundColor(Color("stage1Pink"))
+                Text("With great talent comes great competition, so high iScore candidates have a lower contract success rate.")
+                    .font(.custom("Courier", size: 30) .weight(.bold))
+                    //.foregroundColor(Color("stage1Pink"))
+                    .padding(10)
+                    
             }
             .tag(2)
             
             VStack{
-                Text("Option 2: -iRisky-")
+                Text("Risk management")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Green"))
+                    .foregroundColor(Color("stage2Pink"))
                     .padding(10)
                 Divider()
                     .padding(20)
-                Text(opt2Description)
+                
+                Text(s5)
                     .font(.custom("Courier", size: 30))
                     //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
@@ -80,14 +86,14 @@ struct Stage1MenuView: View {
             .tag(3)
             
             VStack{
-                Text("Ending a Round: Harvest Profits")
+                Text("Send off / Switch another Group")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Pink"))
+                    .foregroundColor(Color("stage2Blue"))
                     .padding(10)
                 Divider()
                     .padding(20)
-                Text(endDescription)
+                Text(s6)
                     .font(.custom("Courier", size: 30))
                     //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
@@ -95,50 +101,19 @@ struct Stage1MenuView: View {
             .tag(4)
             
             VStack{
-                Text("Succeed or Fail")
+                Text("🏃Let's start!!")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage1Brown"))
+                    .foregroundColor(Color("stage2Blue"))
                     .padding(10)
                 Divider()
                     .padding(20)
-                Text(alarmDescription)
+                Text(s7)
                     .font(.custom("Courier", size: 30))
                     //.foregroundColor(Color("stage1Pink"))
                     .padding(20)
             }
             .tag(5)
-            
-            VStack{
-                Text("⚽️About the Goal")
-                    .font(.custom("Avenir", size: 50)
-                        .weight(.bold))
-                    .foregroundColor(Color("stage1Brown"))
-                    .padding(10)
-                Divider()
-                    .padding(20)
-                Text(goalDescription)
-                    .font(.custom("Courier", size: 30))
-                    //.foregroundColor(Color("stage1Pink"))
-                    .padding(20)
-            }
-            .tag(6)
-            
-            VStack{
-                Text("🏃Let's start!!")
-                    .font(.custom("Courier", size: 50)
-                        .weight(.bold))
-                    .foregroundColor(Color("stage1Green"))
-                Divider()
-                
-                    .padding(20)
-                Text(lastDescription)
-                    .font(.custom("Courier", size: 30))
-                    //.foregroundColor(Color("stage1Pink"))
-                    .padding(20)
-            }
-            .tag(7)
-            
             
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
@@ -146,8 +121,9 @@ struct Stage1MenuView: View {
     }
 }
 
-struct Stage1MenuView_Previews: PreviewProvider {
+struct Stage2MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        Stage1MenuView()
+        Stage2MenuView()
     }
 }
+
