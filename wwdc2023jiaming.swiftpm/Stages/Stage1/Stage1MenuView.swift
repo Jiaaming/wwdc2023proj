@@ -29,16 +29,13 @@ struct Stage1MenuView: View {
             
             VStack{
                 HStack{
-                    Image("stage1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                    
-                    Text(welcome)
+                    Text("🤔What should I do?")
                         .font(.custom("Avenir", size: 50)
                             .weight(.bold))
                         .foregroundColor(Color("stage1Brown"))
                         .padding(10)
+                    
+                    
                 }
                 Divider()
                     .padding(20)

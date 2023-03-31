@@ -11,6 +11,11 @@ struct GrowthView: View {
     init() {
         _selectedCards = State(initialValue: [(Int, String)](repeating: (0, ""), count: numberOfSelectedCards))
     }
+    @State private var failTimes: Int = 0
+    @State private var succeedTimes: Int = 0
+    
+    @State private var scaleFactor: CGFloat = 1.0
+
     @State private var selectedIndex = 0
     @State private var selectionConfirmed = false
     @State private var totalValue = 0
@@ -57,8 +62,10 @@ struct GrowthView: View {
                         totalValue += selectedCards[i].0
                         selectionResult = "Success!"
                         selectNum += 1
+                        succeedTimes += 1
                     } else {
                         selectionResult = "Fail"
+                        failTimes += 1
                     }
                     break
                 }
@@ -121,11 +128,16 @@ struct GrowthView: View {
                     .foregroundColor(result == "Success!" ? .green : .red)
                     .padding(.bottom, 10)
                     .frame(width: 150,height: 50)
+                    .scaleEffect(scaleFactor)
+                                    .animation(.easeInOut(duration: 0.5), value: scaleFactor)  
+                    
             }else{
                 Text("🧐")
-                    .font(.largeTitle)
+                    .font(.title)
                     .padding(.bottom, 10)
+                
                     .frame(width: 150,height: 50)
+                    
             }
             HStack {
                 ForEach(0..<3) { index in
@@ -149,9 +161,12 @@ struct GrowthView: View {
                 Text((totalTurns - currentTurn) > 0 ? "Send Offer! ⚠️ \(totalTurns - currentTurn) times left" : "Oops! You have no chance to send offer")
                     .font(.title)
                     .padding(10)
+                    
             }
             .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage2Blue")))
             .disabled(!selectionConfirmed)
+            .confettiCannon(counter: $succeedTimes, confettis: [.text("✅")], confettiSize: 20)
+            .confettiCannon(counter: $failTimes, confettis: [.text("❌")], confettiSize: 20)
             .padding(.top, 20)
             
             Button(action: {

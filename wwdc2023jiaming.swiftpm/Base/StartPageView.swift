@@ -5,11 +5,7 @@ struct StartPageView: View {
     @State var jumpToIntro = false
     var body: some View {
         ZStack {
-            Image("background")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .edgesIgnoringSafeArea(.all)
-                            .opacity(0.7)
+            BackgroundView()
             //Color.white.edgesIgnoringSafeArea(.all)
             
             VStack {
