@@ -9,7 +9,7 @@ struct BootstrappingView: View {
     @State private var currentMoney: Int = 0
     @State private var overallIncome: Int = 0
     private var P1: Double = 0.10
-    private var P2: Double = 0.30
+    private var P2: Double = 0.25
     
     @State private var failTimes: Int = 0
     @State private var succeedTimes: Int = 0
@@ -18,7 +18,7 @@ struct BootstrappingView: View {
     @State private var opt2FailTimes: Int = 0
     @State private var opt2SucceedTimes: Int = 0
     @State private var stopTimes: Int = 0
-    //@State private var eachRoundsLastArray: [Int]
+
     @State var jumpToStage2 = false
 
     
@@ -47,6 +47,7 @@ struct BootstrappingView: View {
     
     
     @State private var roundsData: [RoundData] = Array(repeating: RoundData(), count: 20)
+    @State private var incomeArray:[Int] = Array(repeating: 0, count: 20)
     @State private var currentRound: Int = 0
     
     
@@ -117,6 +118,7 @@ struct BootstrappingView: View {
         startCountTime()
         emoji = resetEmoji
         overallIncome += currentMoney
+        incomeArray[currentTurn] = currentMoney
         currentMoney = 0
         currentTurn+=1
         balloonSize = 100
@@ -128,7 +130,6 @@ struct BootstrappingView: View {
     
     var body: some View {
         TabView {
-            
             VStack {
                 VStack {
                     HStack {
@@ -296,10 +297,12 @@ struct BootstrappingView: View {
                     failTimes: self.failTimes,
                     opt1SucceedTimes: self.opt1SucceedTimes,
                     opt1FailTimes: self.opt1FailTimes,
-                    opt2SucceedTimes: self.opt1SucceedTimes,
-                    opt2FailTimes: self.opt1FailTimes,
+                    opt2SucceedTimes: self.opt2SucceedTimes,
+                    opt2FailTimes: self.opt2FailTimes,
                     stopTimes: self.stopTimes,
-                    eachRoundsLastArray: self.roundsData.map { $0.successCount }
+                    overallIncome: self.overallIncome,
+                    eachRoundsLastArray: self.roundsData.map { $0.successCount },
+                    incomeArray: self.incomeArray
                 )
             }
             .background(Color.white) 

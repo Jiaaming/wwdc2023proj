@@ -8,6 +8,8 @@ import SwiftUI
 
 import Charts
 struct Stage2GameOverView: View {
+    let totalIncome: Int
+
     let elapsedTime: TimeInterval
     let succeedTimes: Int
     let failTimes: Int
@@ -16,7 +18,7 @@ struct Stage2GameOverView: View {
     let opt2SucceedTimes: Int
     let opt2FailTimes: Int
     let stopTimes: Int
-    
+    let incomeArray: [Int]
     let eachRoundsLastArray: [Int]
     //    var intArray: [Int] {
     //        eachRoundsLastArray.map { $0.successCount }
@@ -157,6 +159,7 @@ struct Stage2GameOverView: View {
 struct Stage2GameOverView_Previews: PreviewProvider {
     static var previews: some View {
         Stage2GameOverView(
+            totalIncome: 3500,
             elapsedTime: 12.3,
             succeedTimes: 35,
             failTimes: 12,
@@ -165,7 +168,7 @@ struct Stage2GameOverView_Previews: PreviewProvider {
             opt2SucceedTimes: 11,
             opt2FailTimes: 8,
             stopTimes: 8,
-
+            incomeArray:[300,0,100,0,500,200,300,600,800,300,300,100,100,0,500,200,300,600,800,300],
             eachRoundsLastArray: [3,1,10,0,5,2,3,6,8,3,3,1,10,0,5,2,3,6,8,3]
         )
     }

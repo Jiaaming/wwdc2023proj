@@ -36,7 +36,7 @@ Think of it as a trusty MacBook charger—steady and reliable!
 """
 
 let opt2Description = """
-The iRisky option is your high-risk, high-reward play, with a whopping $200 return but only a 60% success rate.
+The iRisky option is your high-risk, high-reward play, with a whopping $200 return but only a 75% success rate.
 
 This bold move is like launching a groundbreaking new product, such as the original iPhone, which could either revolutionize the industry or flop spectacularly.
 """
@@ -67,6 +67,23 @@ Channel your inner Steve Jobs, don your black turtleneck, and prepare to make de
 Good luck!
 """
 
+let detailedExplain1 = """
+Our evaluation system classify users based on overall income: 3500+ are 'Masters of Industry' with exceptional expertise; 3000-3499 are 'Accomplished Leaders' with proven success; 2500-2999 are 'Skilled Managers' adept at leading; and below 2500 are 'Promising Up-and-Comers' with great potential.
+If you're interested, you can checkout how it came about at the end🧐
+"""
+
+let detailedExplain2 = """
+<60s: lightning-fast decision maker
+60s - 90s: deliberate thinker
+90s+: slow and steady planner
+"""
+
+let detailedExplain3 = """
+highRiskRatio >= 0.60 : "Innovative Visionary"
+0.40 < riskTendency < 0.60 : "Cautious Strategist"
+highRiskRatio <= 0.40 : "Risk-Averse Tactician"
+"""
+
 let introArr: [[String]] = [
     ["Action", "reward", "loss", "Success rate"],
     ["Finding niche", "$50", "$0", "90%"],
@@ -90,4 +107,34 @@ struct GrowingButton: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
+}
+
+public struct CircularProgressViewStyle: ProgressViewStyle {
+    var size: CGFloat
+    private let lineWidth: CGFloat = 20
+    private let defaultProgress = 0.0
+    private let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .leading, endPoint: .trailing)
+    public func makeBody(configuration: ProgressViewStyleConfiguration) -> some View {
+        ZStack {
+            configuration.label
+            progressCircleView(fractionCompleted:
+                                
+            configuration.fractionCompleted ?? defaultProgress)
+            configuration.currentValueLabel }
+        
+    }
+    private func progressCircleView(fractionCompleted: Double) -> some View{
+        Circle()
+            .stroke(gradient, lineWidth: lineWidth)
+        .opacity(0.2)
+        .overlay(progressFill(fractionCompleted: fractionCompleted))
+        .frame(width: size, height: size) }
+    private func progressFill(fractionCompleted: Double) -> some View
+    {
+        Circle() .trim(from: 0, to: CGFloat(fractionCompleted)) .stroke(gradient, lineWidth: lineWidth)
+            .frame(width: size)
+            .rotationEffect(.degrees(-90))
+        
+    }
+    
 }
