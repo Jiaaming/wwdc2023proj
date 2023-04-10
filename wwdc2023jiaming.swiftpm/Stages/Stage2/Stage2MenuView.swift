@@ -19,7 +19,7 @@ struct Stage2MenuView: View {
                         .scaledToFit()
                         .frame(width: 200, height: 200)
                     
-                    Text("Welcome to \"iCEO\": Future of Apple!")
+                    Text("Welcome to \"iRecruit\": HR of Apple!")
                         .font(.custom("Avenir", size: 50)
                             .weight(.bold))
                         .foregroundColor(Color("stage2Blue"))

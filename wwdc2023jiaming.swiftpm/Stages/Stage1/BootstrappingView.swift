@@ -4,7 +4,8 @@ import SwiftUI
 
 struct BootstrappingView: View {
     @Environment(\.presentationMode) private var presentationMode
-    
+    @State private var restartView = false
+
     @State private var balloonSize: CGFloat = 100
     @State private var currentMoney: Int = 0
     @State private var overallIncome: Int = 0
@@ -259,13 +260,22 @@ struct BootstrappingView: View {
                                 isGameOver.toggle()
                                 
                             }) {
-                                Text("See my Report")
+                                Text("📄 See my Report")
                                 //String(describing: elapsedTime)
                             }
                             .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Green")))
-                            .padding(20)
+                            .padding(10)
                             
-                            Button("> Step to the next Part!"){
+                            Button(action: {
+                                            restartView.toggle()
+                                        }) {
+                                            Text("🔄 Restart game")
+                                                
+                                        }
+                                        .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Brown")))
+                                        .padding(10)
+
+                            Button("Step to the next Part!"){
                                 self.jumpToStage2.toggle()
 
                             }
@@ -273,8 +283,8 @@ struct BootstrappingView: View {
                                         //全屏模式
                                         GrowthView()
                                 })
-                                .font(.custom("Courier", size: 25))
-                                .foregroundColor(.black)
+                                .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Pink")))                                .foregroundColor(.black)
+                                .padding(10)
                         }
                         
                     }
@@ -306,7 +316,7 @@ struct BootstrappingView: View {
                 )
             }
             .background(Color.white) 
-                    
+            .id(restartView)
             
         }
         

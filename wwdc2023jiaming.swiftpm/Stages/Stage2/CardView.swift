@@ -19,7 +19,7 @@ struct CardView: View {
                 .fill(isSelected ? Color("stage1Green") : .white) // Change fill color based on isSelected
             
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(Color.white, lineWidth: 2)
                 .shadow(color: Color.black.opacity(0.3), radius: 2, x: 2, y: 2)
         }
         .frame(width: width, height: height)

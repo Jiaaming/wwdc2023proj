@@ -60,11 +60,11 @@ struct Stage1GameOverView: View {
         }
         
         let incomeEvaluation: String
-        if overallIncome >= 3500 {
+        if overallIncome >= 3200 {
             incomeEvaluation = "master of industry"
-        } else if overallIncome >= 3000 {
+        } else if overallIncome >= 2800 {
             incomeEvaluation = "accomplished leader"
-        } else if overallIncome >= 2500 {
+        } else if overallIncome >= 2400 {
             incomeEvaluation = "skilled manager"
         } else {
             incomeEvaluation = "promising up-and-comer"
@@ -118,7 +118,9 @@ struct Stage1GameOverView: View {
                                         y: .value("Value", eachRoundsLastArray[index])
                                     )
                                 }
-                            }.frame(height: 250)
+                            }
+                            .foregroundColor(Color("stage1Brown"))
+                            .frame(height: 250)
                         }
                         
                         
@@ -130,7 +132,11 @@ struct Stage1GameOverView: View {
                                         y: .value("Value", incomeArray[index])
                                     )
                                 }
-                            }.frame(height: 250)
+                            }
+                            
+                            .foregroundColor(Color("stage1Green"))
+                            .frame(height: 250)
+                            
                         }
                         Text("You spend ⏱ \( String(format: "%.2f", elapsedTime)) seconds and earn 💰 \(overallIncome) dollars！Based on your performance, we'd say you're a")
                             .font(.custom("Courier", size: 30))
@@ -195,7 +201,7 @@ struct Stage1GameOverView: View {
                             GroupBox ( "Action - Stop ratio") {
                                 Chart{
                                     BarMark(
-                                        x: .value("Index", "Find times"),
+                                        x: .value("Index", "Action"),
                                         y: .value("Value", succeedTimes+failTimes)
                                     ).foregroundStyle(Color("stage1Pink"))
                                         .annotation {

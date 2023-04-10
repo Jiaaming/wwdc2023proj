@@ -73,9 +73,9 @@ If you're interested, you can checkout how it came about at the end🧐
 """
 
 let detailedExplain2 = """
-<60s: lightning-fast decision maker
-60s - 90s: deliberate thinker
-90s+: slow and steady planner
+elapsedTime < 60s: lightning-fast decision maker
+elapsedTime in 60s - 90s: deliberate thinker
+elapsedTime is 90s+: slow and steady planner
 """
 
 let detailedExplain3 = """
@@ -84,12 +84,7 @@ highRiskRatio >= 0.60 : "Innovative Visionary"
 highRiskRatio <= 0.40 : "Risk-Averse Tactician"
 """
 
-let introArr: [[String]] = [
-    ["Action", "reward", "loss", "Success rate"],
-    ["Finding niche", "$50", "$0", "90%"],
-    ["Finding suppliers", "$200", "-$100", "70%"]
-]
-let gradient = LinearGradient(gradient: Gradient(colors: [Color("stage1Green"), Color("stage1Pink")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+
 
 let succeedEmoji = ["😃", "🥳", "🥰", "🤭", "🤤", "😘", "😲","😋"]
 let resetEmoji = "🙌"

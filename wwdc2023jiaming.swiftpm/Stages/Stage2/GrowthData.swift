@@ -12,7 +12,6 @@ In this game, you'll take on the role of Apple's CEO, making strategic decisions
 
 Your mission: to recruit a dream team of 8 exceptional candidates.
 
-
 Start by putting on your snazzy Apple HR hat🎩 and get ready for the challedge.
 """
 let s2 = """
@@ -20,7 +19,7 @@ let s2 = """
 """
 
 let s3 = """
-"There are 25 rounds in this game, also known as 'Apple Talent Discovery Rounds.'
+"There are 16 rounds in this game, also known as 'Apple Talent Discovery Rounds.'
 
 Each round represents a fresh opportunity to identify bright minds to continue Apple's tradition of innovation and excellence."
 
@@ -54,4 +53,22 @@ Are you ready to take on this recruitment challenge, future HR hero?
 Let's get started and show the world the power of the Apple family!
 
 Good luck and have fun!
+"""
+
+let detailedExplain11 = """
+averageAttemptediScore >= 55 :  "Bold Visionary"
+55 >averageAttemptediScore >= 45 : "Balanced Talent Spotter"
+averageAttemptediScore <45 : "Cautious Recruiter"
+"""
+
+let detailedExplain22 = """
+elapsedTime < 60s: lightning-fast decision maker
+elapsedTime in 60s - 90s: deliberate thinker
+elapsedTime is 90s+: slow and steady planner
+"""
+
+let detailedExplain33 = """
+average success iScore >= 58 : "Master Recruiter"
+58> average success iScore >= 42 : "Expert Talent Scout"
+average success iScore < 42 : "Aspiring Headhunter"
 """
