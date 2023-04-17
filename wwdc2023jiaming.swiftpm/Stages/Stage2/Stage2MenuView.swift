@@ -19,7 +19,7 @@ struct Stage2MenuView: View {
                         .scaledToFit()
                         .frame(width: 200, height: 200)
                     
-                    Text("Welcome to \"iRecruit\": HR of Apple!")
+                    Text("Welcome to \"iRecruit\": HR of Apple! (part2/2)")
                         .font(.custom("Avenir", size: 50)
                             .weight(.bold))
                         .foregroundColor(Color("stage2Blue"))
@@ -61,7 +61,7 @@ struct Stage2MenuView: View {
                     .font(.custom("Courier", size: 30) )
                     .padding(20)
                     //.foregroundColor(Color("stage1Pink"))
-                Text("With great talent comes great competition, so high iScore candidates have a lower contract success rate.")
+                Text("🥲With great talent comes great competition, so high iScore candidates have a lower contract success rate!")
                     .font(.custom("Courier", size: 30) .weight(.bold))
                     //.foregroundColor(Color("stage1Pink"))
                     .padding(10)
@@ -73,7 +73,7 @@ struct Stage2MenuView: View {
                 Text("Risk management")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage2Pink"))
+                    .foregroundColor(Color("stage2Blue2"))
                     .padding(10)
                 Divider()
                     .padding(20)
@@ -86,10 +86,10 @@ struct Stage2MenuView: View {
             .tag(3)
             
             VStack{
-                Text("Send off / Switch another Group")
+                Text("Send offer / Switch another Group")
                     .font(.custom("Avenir", size: 50)
                         .weight(.bold))
-                    .foregroundColor(Color("stage2Blue"))
+                    .foregroundColor(Color("stage2Pink"))
                     .padding(10)
                 Divider()
                     .padding(20)
@@ -118,6 +118,8 @@ struct Stage2MenuView: View {
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        //.background(.white)
+
     }
 }
 

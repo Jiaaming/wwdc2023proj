@@ -4,7 +4,8 @@
 //
 //  Created by Simon Bachmann on 24.11.20.
 //
-
+//cite: https://github.com/simibac/ConfettiSwiftUI @simibac
+//I use it to enrich the feedback effect of clicks.
 import SwiftUI
 
 public enum ConfettiType:CaseIterable, Hashable {

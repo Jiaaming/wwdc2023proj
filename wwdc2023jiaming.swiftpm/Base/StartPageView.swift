@@ -19,6 +19,8 @@ struct StartPageView: View {
                     VStack{
                         Text("")
                             .font(.custom("Courier", size: 120))
+                            .foregroundColor(.black)
+
                         Text("Apple Ascendancy")
                             .font(.custom("Courier", size: 90))
                             .foregroundColor(.black)
@@ -48,28 +50,11 @@ struct StartPageView: View {
                                 BootstrappingView()
                         })
                         .font(.custom("Courier", size: 25))
-                        .foregroundColor(.black)
-                }.padding(10)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(Color.white.opacity(0.9))
-                        .frame(width: 350, height: 50)
+                        
                     
-                    Button("> Brief Introduction"){
-                        self.jumpToIntro.toggle()
-                    }.navigationBarTitle("首页", displayMode: .inline)//设置标题，并固定到导航中间
-                        .sheet(isPresented: $jumpToIntro) {
-                            //非全屏模式
-                            //ShortIntroductionView()
-                            Stage1MenuView()
-                        }
-                        .font(.custom("Courier", size: 25))
-                        .foregroundColor(.black)
-                }
-                
-                
-                
+                    
+                }.padding(10)
+        
                 
                 Spacer()
             }

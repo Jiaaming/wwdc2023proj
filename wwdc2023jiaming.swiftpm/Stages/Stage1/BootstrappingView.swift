@@ -4,13 +4,13 @@ import SwiftUI
 
 struct BootstrappingView: View {
     @Environment(\.presentationMode) private var presentationMode
-    @State private var restartView = false
+    
 
     @State private var balloonSize: CGFloat = 100
     @State private var currentMoney: Int = 0
     @State private var overallIncome: Int = 0
     private var P1: Double = 0.10
-    private var P2: Double = 0.25
+    private var P2: Double = 0.35
     
     @State private var failTimes: Int = 0
     @State private var succeedTimes: Int = 0
@@ -43,6 +43,7 @@ struct BootstrappingView: View {
     @State private var isGameOver: Bool = false
     @State private var showDoc: Bool = false
     @State private var showingAlert = false
+    @State private var showingAlert2 = false
 
     @State var counter:Int = 2
     
@@ -128,7 +129,35 @@ struct BootstrappingView: View {
     }
     
     
-    
+    func resetGame() {
+        
+        balloonSize = 100
+        currentMoney = 0
+        overallIncome = 0
+        failTimes = 0
+        succeedTimes = 0
+        opt1FailTimes = 0
+        opt1SucceedTimes = 0
+        opt2FailTimes = 0
+        opt2SucceedTimes = 0
+        stopTimes = 0
+        jumpToStage2 = false
+        balloonColor = .red
+        startTime = nil
+        elapsedTime = 0.0
+        currentTurn = 0
+        emoji = "🙌"
+        isGameOver = false
+        showDoc = false
+        showingAlert = false
+        showingAlert2 = false
+
+        counter = 2
+        roundsData = Array(repeating: RoundData(), count: 20)
+        incomeArray = Array(repeating: 0, count: 20)
+        currentRound = 0
+    }
+
     var body: some View {
         TabView {
             VStack {
@@ -215,7 +244,7 @@ struct BootstrappingView: View {
                             Button(action: {
                                 nicheAction()
                             }) {
-                                Text("Steady Orchard Growth")
+                                Text("-MacSafe-")
                                     .padding()
                             }
                             .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color:Color("stage1Brown")))
@@ -225,7 +254,7 @@ struct BootstrappingView: View {
                             Button(action: {
                                 suppliersAction()
                             }) {
-                                Text("Operation Quantum Leap")
+                                Text("-iRisky-")
                                     .padding()
                             }
                             .buttonStyle(GrowingButton(isDisabled: currentTurn == totalTurns, color: Color("stage1Green")))
@@ -267,15 +296,16 @@ struct BootstrappingView: View {
                             .padding(10)
                             
                             Button(action: {
-                                            restartView.toggle()
-                                        }) {
-                                            Text("🔄 Restart game")
-                                                
-                                        }
-                                        .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Brown")))
-                                        .padding(10)
+                                resetGame()
+                            }) {
+                                Text("🔄 Restart game")
+                            }
+                            .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage1Brown")))
+                            .padding(10)
 
                             Button("Step to the next Part!"){
+                                resetGame()
+
                                 self.jumpToStage2.toggle()
 
                             }
@@ -292,12 +322,39 @@ struct BootstrappingView: View {
                 
                 
                 Spacer()
-                
+                Button(action: {
+                    // Handle left-top button tap
+                    showingAlert2 = true
+                }) {
+                    Image(systemName: "arrow.right")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .padding()
+                }
+                .alert(isPresented: $showingAlert2) {
+                    Alert(
+                        title: Text("Skip to next game?"),
+                        message: Text("You will lose the current progress."),
+                        primaryButton: .destructive(Text("Confirm")) {
+                            //jump to GrowthView
+                            resetGame()
+
+                            jumpToStage2.toggle()
+
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                .fullScreenCover(isPresented: $jumpToStage2) {
+                    GrowthView()
+                }
             }.sheet(isPresented: $showDoc) {
                 Stage1MenuView()
             }
             .onAppear {
+                resetGame()
                 self.showDoc = true
+
             }
             
             .sheet(isPresented: $isGameOver) {
@@ -315,11 +372,12 @@ struct BootstrappingView: View {
                     incomeArray: self.incomeArray
                 )
             }
-            .background(Color.white) 
-            .id(restartView)
+            //.background(Color.white)
+            
             
         }
         
+
             
     }
 }

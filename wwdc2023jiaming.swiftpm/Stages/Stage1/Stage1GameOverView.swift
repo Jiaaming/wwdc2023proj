@@ -39,10 +39,7 @@ struct Stage1GameOverView: View {
     func generateReportText(elapsedTime: TimeInterval, succeedTimes: Int, failTimes: Int, opt1SucceedTimes: Int, opt1FailTimes: Int, opt2SucceedTimes: Int, opt2FailTimes: Int, stopTimes: Int, overallIncome: Int) -> (decisiveness: String, incomeEvaluation: String, riskTendency: String) {
         
         let totalRounds = 20
-        let successRate = Double(succeedTimes) / Double(totalRounds) * 100
-        let opt1SuccessRate = Double(opt1SucceedTimes) / Double(opt1SucceedTimes + opt1FailTimes) * 100
-        let opt2SuccessRate = Double(opt2SucceedTimes) / Double(opt2SucceedTimes + opt2FailTimes) * 100
-        
+   
         let chooseLowRiskTimes = opt1FailTimes + opt1SucceedTimes
         let chooseHighRiskTimes = opt2FailTimes + opt2FailTimes
         let totalChoices = chooseLowRiskTimes + chooseHighRiskTimes
@@ -51,20 +48,20 @@ struct Stage1GameOverView: View {
         let riskTendency: String
         
         let decisiveness: String
-        if elapsedTime < 300 {
+        if elapsedTime < 60 {
             decisiveness = "lightning-fast decision maker"
-        } else if elapsedTime < 600 {
+        } else if elapsedTime < 90 {
             decisiveness = "deliberate thinker"
         } else {
             decisiveness = "slow and steady planner"
         }
         
         let incomeEvaluation: String
-        if overallIncome >= 3200 {
+        if overallIncome >= 3300 {
             incomeEvaluation = "master of industry"
         } else if overallIncome >= 2800 {
             incomeEvaluation = "accomplished leader"
-        } else if overallIncome >= 2400 {
+        } else if overallIncome >= 2300 {
             incomeEvaluation = "skilled manager"
         } else {
             incomeEvaluation = "promising up-and-comer"
@@ -73,7 +70,7 @@ struct Stage1GameOverView: View {
         let highRiskRatio = Double(chooseHighRiskTimes) / Double(totalChoices)
         
         if highRiskRatio >= 0.60 {
-            riskTendency = "Innovative Visionary"
+            riskTendency = "Brave Innovators"
         } else if highRiskRatio <= 0.40 {
             riskTendency = "Risk-Averse Tactician"
         } else {
@@ -86,175 +83,194 @@ struct Stage1GameOverView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             VStack {
-                HStack{
-                    Image("stage1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                    Text("🎉 Congratulations on completing \"iCEO: The Future of Apple!\" 🎉")
-                        .font(.custom("Avenir", size: 50)
-                            .weight(.bold))
-                        .foregroundColor(Color("stage1Brown"))
-                        .padding(10)
+                ScrollView{
+                    Spacer()
+                    HStack{
+                        Image("stage1")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200, height: 200)
+                        Text("🎉 Congratulations on completing \"iCEO: The Future of Apple!\" 🎉")
+                            .font(.custom("Avenir", size: 50)
+                                .weight(.bold))
+                            .foregroundColor(Color("stage1Brown"))
+                            .padding()
+                    }
+                    Divider()
+                        .padding(20)
+                    
+                    Text(cong)
+                        .font(.custom("Courier", size: 30))
+                    //.foregroundColor(Color("stage1Pink"))
+                        .padding()
                 }
-                Divider()
-                    .padding(20)
-                
-                Text(cong)
-                    .font(.custom("Courier", size: 30))
-                //.foregroundColor(Color("stage1Pink"))
-                    .padding(20)
+                .padding()
                 
             }.tag(0)
             
             VStack{
-                if #available(iOS 16.0, *) {
-                    VStack{
-                        GroupBox ( "🏃🏻 Successful Actions per Round") {
-                            Chart {
-                                ForEach(eachRoundsLastArray.indices, id: \.self) { index in
-                                    LineMark(
-                                        x: .value("Index", "\(index + 1)"),
-                                        y: .value("Value", eachRoundsLastArray[index])
-                                    )
+                ScrollView{
+                    if #available(iOS 16.0, *) {
+                        VStack{
+                            Spacer()
+                            GroupBox ( "🏃🏻 Successful Actions per Round") {
+                                Chart {
+                                    ForEach(eachRoundsLastArray.indices, id: \.self) { index in
+                                        LineMark(
+                                            x: .value("Index", "\(index + 1)"),
+                                            y: .value("Value", eachRoundsLastArray[index])
+                                        )
+                                    }
                                 }
-                            }
-                            .foregroundColor(Color("stage1Brown"))
-                            .frame(height: 250)
-                        }
-                        
-                        
-                        GroupBox ( "💰 Income Earned Each Turn") {
-                            Chart {
-                                ForEach(incomeArray.indices, id: \.self) { index in
-                                    LineMark(
-                                        x: .value("Index", "\(index + 1)"),
-                                        y: .value("Value", incomeArray[index])
-                                    )
-                                }
+                                .foregroundColor(Color("stage1Brown"))
+                                .frame(height: 250)
                             }
                             
-                            .foregroundColor(Color("stage1Green"))
-                            .frame(height: 250)
                             
-                        }
-                        Text("You spend ⏱ \( String(format: "%.2f", elapsedTime)) seconds and earn 💰 \(overallIncome) dollars！Based on your performance, we'd say you're a")
-                            .font(.custom("Courier", size: 30))
+                            GroupBox ( "💰 Income Earned per Round") {
+                                Chart {
+                                    ForEach(incomeArray.indices, id: \.self) { index in
+                                        LineMark(
+                                            x: .value("Index", "\(index + 1)"),
+                                            y: .value("Value", incomeArray[index])
+                                        )
+                                    }
+                                }
+                                
+                                .foregroundColor(Color("stage1Green"))
+                                .frame(height: 250)
+                                
+                            }
+                            Text("You spend ⏱ \( String(format: "%.2f", elapsedTime)) seconds and earn 💰 \(overallIncome) dollars！Based on your performance, we'd say you're a")
+                                .font(.custom("Courier", size: 30))
 
-                        HStack{
-                            Text(incomeEvaluation).bold()
-                                .font(.custom("Courier", size: 35))
-                            Button(action: {
-                                showPopover1.toggle()
-                            }) {
-                                Image(systemName: "questionmark.circle")
-                                    .font(.title)
-                            }.popover(isPresented: $showPopover1) {
-                                VStack(alignment: .leading) {
-                                    Text("Detailed Explanation")
+                            HStack{
+                                Text(incomeEvaluation).bold()
+                                    .font(.custom("Courier", size: 35))
+                                Button(action: {
+                                    showPopover1.toggle()
+                                }) {
+                                    Image(systemName: "questionmark.circle")
                                         .font(.title)
-                                        .bold()
-                                    Text(detailedExplain1)
-                                        .font(.title2)
-                                        .padding(.top)
+                                }.popover(isPresented: $showPopover1) {
+                                    VStack(alignment: .leading) {
+                                        Text("Detailed Explanation")
+                                            .font(.title)
+                                            .bold()
+                                        Text(detailedExplain1)
+                                            .font(.title2)
+                                            .padding(.top)
+                                    }
+
+                                    .padding()
+                                    .frame(width: 500, height: 400)
+                                    //.background(.white)
+
                                 }
-                                .padding()
-                                .frame(width: 500, height: 400)
+                            }
+                            Text("as well as a")
+                                .font(.custom("Courier", size: 30))
+                            HStack{
+                                Text(decisiveness).bold()
+                                    .font(.custom("Courier", size: 35))
+                                
+                                Button(action: {
+                                    showPopover2.toggle()
+                                }) {
+                                    Image(systemName: "questionmark.circle")
+                                        .font(.title)
+                                }.popover(isPresented: $showPopover2) {
+                                    VStack(alignment: .leading) {
+                                        Text("Detailed Explanation")
+                                            .font(.title)
+                                            .bold()
+                                        Text(detailedExplain2)
+                                            .font(.title2)
+                                            .padding(.top)
+                                    }
+                                    .padding()
+                                    .frame(width: 500, height: 400)
+                                    //.background(.white)
+
+                                }
                             }
                         }
-                        Text("as well as a")
-                            .font(.custom("Courier", size: 30))
-                        HStack{
-                            Text(decisiveness).bold()
-                                .font(.custom("Courier", size: 35))
-                            
-                            Button(action: {
-                                showPopover2.toggle()
-                            }) {
-                                Image(systemName: "questionmark.circle")
-                                    .font(.title)
-                            }.popover(isPresented: $showPopover2) {
-                                VStack(alignment: .leading) {
-                                    Text("Detailed Explanation")
-                                        .font(.title)
-                                        .bold()
-                                    Text(detailedExplain2)
-                                        .font(.title2)
-                                        .padding(.top)
-                                }
-                                .padding()
-                                .frame(width: 500, height: 400)
-                            }
-                        }
+                        .padding()
+
+                    }else{
+                        Text("😢Please update ios16 to see the specific report")
                     }
-                    
-                }else{
-                    Text("😢Please update ios16 to see the specific report")
                 }
+                
             }.tag(1)
             
             
             VStack{
-                if #available(iOS 16.0, *) {
-                    VStack{
-                        HStack{
-                            GroupBox ( "Action - Stop ratio") {
-                                Chart{
-                                    BarMark(
-                                        x: .value("Index", "Action"),
-                                        y: .value("Value", succeedTimes+failTimes)
-                                    ).foregroundStyle(Color("stage1Pink"))
-                                        .annotation {
-                                            Text(String(format: "%.2f%%", (Double(succeedTimes+failTimes) / Double(succeedTimes+failTimes+stopTimes)) * 100))
-                                        }
-                                    
-                                    BarMark(
-                                        x: .value("Index", "Stop times"),
-                                        y: .value("Value", stopTimes)
-                                    ).foregroundStyle(Color("stage1Pink"))
-                                        .annotation {
-                                            Text(String(format: "%.2f%%", (Double(stopTimes) / Double(succeedTimes+failTimes+stopTimes)) * 100))
-                                            
-                                        }
-                                }
-                                .frame(height: 250)
-                            }
-                            
-                            GroupBox ( "Overall Succeed-fail ratio") {
-                                Chart{
-                                    BarMark(
-                                        x: .value("Index", "success times"),
-                                        y: .value("Value", succeedTimes)
-                                    ).foregroundStyle(Color("stage1Brown"))
-                                        .annotation {
-                                            Text(String(format: "%.2f%%", (Double(self.succeedTimes) / Double(self.failTimes + self.succeedTimes)) * 100))
-                                        }
-                                    
-                                    BarMark(
-                                        x: .value("Index", "fail times"),
-                                        y: .value("Value", failTimes)
-                                    ).foregroundStyle(Color("stage1Brown"))
-                                        .annotation {
-                                            Text(String(format: "%.2f%%", (Double(self.failTimes) / Double(self.failTimes + self.succeedTimes)) * 100))
-                                        }
-                                }
-                                .frame(height: 250)
-                            }
-                        }
+                ScrollView{
+                    if #available(iOS 16.0, *) {
                         VStack{
-                            Text("You performed a total of \(self.succeedTimes+self.failTimes) operations, of which you succeeded \(self.succeedTimes) times and failed \(self.failTimes) times.\nStop was selected \(self.stopTimes) times, indicate that you make money in \( String(format: "%.2f%%", (20.0 - Double(self.stopTimes))*100/20.0 )) of the rounds.")
-                                .font(.custom("Courier", size: 30))
-                                .padding()
+                            Spacer()
+                            HStack{
+                                GroupBox ( "Action - Stop ratio") {
+                                    Chart{
+                                        BarMark(
+                                            x: .value("Index", "Action"),
+                                            y: .value("Value", succeedTimes+failTimes)
+                                        ).foregroundStyle(Color("stage1Pink"))
+                                            .annotation {
+                                                Text(String(format: "%.2f%%", (Double(succeedTimes+failTimes) / Double(succeedTimes+failTimes+stopTimes)) * 100))
+                                            }
+                                        
+                                        BarMark(
+                                            x: .value("Index", "Stop times"),
+                                            y: .value("Value", stopTimes)
+                                        ).foregroundStyle(Color("stage1Pink"))
+                                            .annotation {
+                                                Text(String(format: "%.2f%%", (Double(stopTimes) / Double(succeedTimes+failTimes+stopTimes)) * 100))
+                                                
+                                            }
+                                    }
+                                    .frame(height: 250)
+                                }
+                                
+                                GroupBox ( "Overall Succeed-fail ratio") {
+                                    Chart{
+                                        BarMark(
+                                            x: .value("Index", "success times"),
+                                            y: .value("Value", succeedTimes)
+                                        ).foregroundStyle(Color("stage1Brown"))
+                                            .annotation {
+                                                Text(String(format: "%.2f%%", (Double(self.succeedTimes) / Double(self.failTimes + self.succeedTimes)) * 100))
+                                            }
+                                        
+                                        BarMark(
+                                            x: .value("Index", "fail times"),
+                                            y: .value("Value", failTimes)
+                                        ).foregroundStyle(Color("stage1Brown"))
+                                            .annotation {
+                                                Text(String(format: "%.2f%%", (Double(self.failTimes) / Double(self.failTimes + self.succeedTimes)) * 100))
+                                            }
+                                    }
+                                    .frame(height: 250)
+                                }
+                            }
+                            VStack{
+                                Text("You performed a total of \(self.succeedTimes+self.failTimes) actual actions, of which you succeeded \(self.succeedTimes) times and failed \(self.failTimes) times.\nStop was selected \(self.stopTimes) times, indicate that you make money in \( String(format: "%.2f%%", (Double(self.stopTimes))*100/20.0 )) of all 20 rounds.")
+                                    .font(.custom("Courier", size: 30))
+                                    .padding()
+                            }
                         }
+                    }else{
+                        Text("😢Please update ios16 to see the specific report")
                     }
-                }else{
-                    Text("😢Please update ios16 to see the specific report")
-                }
+                }.padding()
             }.tag(2)
             
             VStack{
+                ScrollView{
                 if #available(iOS 16.0, *) {
                     VStack{
+                        Spacer()
                         HStack{
                             GroupBox ( "MacSafe ") {
                                 Chart{
@@ -324,16 +340,21 @@ struct Stage1GameOverView: View {
                                 }
                                 .padding()
                                 .frame(width: 500, height: 400)
+                                //.background(.white)
+
                             }
                         }
                         
-                    }.tag(3)
+                    }
                     
                 } else {
                     // Fallback on earlier versions
                     Text("😢Please update ios16 to see the specific report")
                 }
+                }.padding()
+
             }.tag(3)
+            
         }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .onAppear {
@@ -342,6 +363,7 @@ struct Stage1GameOverView: View {
                 decisiveness = reportText.decisiveness
                 incomeEvaluation = reportText.incomeEvaluation
             }
+            //.background(.white)
     }
 }
 

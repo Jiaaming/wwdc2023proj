@@ -52,6 +52,12 @@ struct Stage1MenuView: View {
                         .weight(.bold))
                     .foregroundColor(Color("stage1Brown"))
                     .padding(10)
+                Button(action: {
+                }) {
+                    Text("-MacSafe-")
+                        
+                }
+                .buttonStyle(GrowingButton(isDisabled: false, color:Color("stage1Brown")))
                 Divider()
                     .padding(20)
                 Text(opt1Description)
@@ -67,6 +73,12 @@ struct Stage1MenuView: View {
                         .weight(.bold))
                     .foregroundColor(Color("stage1Green"))
                     .padding(10)
+                Button(action: {
+                }) {
+                    Text("-iRisky-")
+                        
+                }
+                .buttonStyle(GrowingButton(isDisabled: false, color:Color("stage1Green")))
                 Divider()
                     .padding(20)
                 Text(opt2Description)
@@ -82,6 +94,12 @@ struct Stage1MenuView: View {
                         .weight(.bold))
                     .foregroundColor(Color("stage1Pink"))
                     .padding(10)
+                Button(action: {
+                }) {
+                    Text("Harvest Profits")
+                        
+                }
+                .buttonStyle(GrowingButton(isDisabled: false, color:Color("stage1Pink")))
                 Divider()
                     .padding(20)
                 Text(endDescription)
@@ -140,6 +158,8 @@ struct Stage1MenuView: View {
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        //.background(.white)
+
     }
 }
 

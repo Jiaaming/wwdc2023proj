@@ -3,7 +3,7 @@ import GameplayKit
 
 struct GrowthView: View {
     @Environment(\.presentationMode) private var presentationMode
-    @State private var restartView = false
+    
     
     let numberOfSelectedCards: Int = 8
     @State private var cards = [(Int, String)](repeating: (0, ""), count: 3)
@@ -21,16 +21,12 @@ struct GrowthView: View {
     @State private var selectionConfirmed = false
     @State private var totalValue = 0
     @State private var selectionResult: String? = nil
-    @State private var currentTurn: Int = 0 {
-        didSet {
-            if checkIfEnd() {
-                
-                let endTime = Date()
-                elapsedTime = endTime.timeIntervalSince(startTime!)
-                // Reset the state
-                startTime = nil
-            }
-        }
+    @State private var currentTurn: Int = 0
+    func setEndTime(){
+        let endTime = Date()
+        elapsedTime = endTime.timeIntervalSince(startTime!)
+        // Reset the state
+        startTime = nil
     }
     @State private var totalTurns: Int = 16
     @State private var tapsRemaining: Int = 8
@@ -43,16 +39,24 @@ struct GrowthView: View {
     @State private var tryArray = [Int]()
     @State private var successArray = [Int]()
     @State private var failArray = [Int]()
+    @State private var allCardScoreShow = [Int]()
     @State private var elapsedTime: Double? = 0.0
     @State private var startTime: Date? = nil
+    let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .short
+            return formatter
+        }()
+    
     func startCountTime(){
         if startTime == nil {
             startTime = Date()
         }
     }
     private func generateRandomCards() {
-        let interval1 = 1
-        let interval2 = 100
+        let interval1 = 10
+        let interval2 = 99
         let mean = (interval1 + interval2) / 3
         let standardDeviation = (interval2 - interval1) / 4
         
@@ -63,51 +67,89 @@ struct GrowthView: View {
             let randomNumber = gaussianDistribution.nextInt()
             let clampedRandomNumber = max(interval1, min(interval2, randomNumber))
             cards[i] = (clampedRandomNumber, emojis.randomElement()!)
+            allCardScoreShow.append(clampedRandomNumber)
         }
     }
     
     func checkIfEnd() -> Bool{
-        return (currentTurn == totalTurns || selectNum == numberOfSelectedCards)
+        return (selectNum == 8  || currentTurn == 16)
     }
     private func selectCard(at index: Int) {
-        startCountTime()
+        if startTime == nil {
+                    startCountTime()
+                }
 
         selectedIndex = index
         selectionConfirmed = true
     }
     
     private func confirmSelection() {
-        startCountTime()
+        if startTime == nil {
+                    startCountTime()
+                }
         currentTurn += 1;
+        
         if selectionConfirmed {
             for i in 0..<selectedCards.count {
                 if selectedCards[i].0 == 0 {
-                    let successProbability = 100 -  cards[selectedIndex].0
+                    let successProbability = 105 -  cards[selectedIndex].0
                     if Int.random(in: 1...100) <= successProbability {
                         selectedCards[i] = cards[selectedIndex]
                         totalValue += selectedCards[i].0
                         successArray.append(selectedCards[i].0)
-                        
+                        tryArray.append(selectedCards[i].0)
                         selectionResult = "Success!"
                         selectNum += 1
                         succeedTimes += 1
                     } else {
-                        failArray.append(selectedCards[i].0)
                         
+                        failArray.append(cards[selectedIndex].0)
+                        tryArray.append(cards[selectedIndex].0)
                         selectionResult = "Fail"
                         failTimes += 1
                     }
-                    tryArray.append(selectedCards[i].0)
+                    //tryArray.append(selectedCards[i].0)
                     break
                 }
             }
         }
+        if checkIfEnd() {
+                    let endTime = Date()
+                    elapsedTime = endTime.timeIntervalSince(startTime!)
+                    // Reset the state
+                    startTime = nil
+                }
         generateRandomCards()
         selectionConfirmed = false
         selectedIndex = -1
     }
     
-    
+    func resetGame() {
+        // Reset the state variables
+        cards = [(Int, String)](repeating: (0, ""), count: 3)
+        selectedCards = [(Int, String)](repeating: (0, ""), count: numberOfSelectedCards)
+        failTimes = 0
+        succeedTimes = 0
+        scaleFactor = 1.0
+        selectedIndex = -1
+        selectionConfirmed = false
+        totalValue = 0
+        selectionResult = nil
+        currentTurn = 0
+        tapsRemaining = 8
+        selectNum = 0
+        isGameOver = false
+        tryArray.removeAll()
+        successArray.removeAll()
+        failArray.removeAll()
+        elapsedTime = 0.0
+        startTime = nil
+        
+        // Generate new random cards
+        generateRandomCards()
+    }
+
+
     var body: some View {
         VStack {
             VStack{
@@ -221,8 +263,9 @@ struct GrowthView: View {
             }
             if(checkIfEnd()){
                 VStack{
-                    Text("🎆 Congratulations! You have finished")
-                        .font(.custom("Avenir", size: 50))
+
+                    Text("🎆 Congratulations! You have finished!")
+                        .font(.custom("Avenir", size: 30))
                         .foregroundColor(Color("stage2Blue"))
                         .padding(10)
                     Button(action: {
@@ -235,16 +278,15 @@ struct GrowthView: View {
                         //String(describing: elapsedTime)
                     }
                     .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage2Pink")))
-                    .font(.largeTitle)
+                    
                     .padding(10)
                     
                     Button(action: {
-                        restartView.toggle()
+                        resetGame()
                     }) {
                         Text("🔄 Restart game")
-                        
                     }
-                    .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage2Blue")))
+                    .buttonStyle(GrowingButton(isDisabled: false, color: Color("stage2Blue2")))
                     .padding(10)
                 }
             }
@@ -265,17 +307,20 @@ struct GrowthView: View {
                 elapsedTime: self.elapsedTime ?? 0.0,
                 attemptedOffers : tryArray,
                 successfulHires: successArray,
-                failedHires: failArray)
+                failedHires: failArray,
+                allCardScoreShow: allCardScoreShow)
         }
-        .background(Color.white)
+        //.background(Color.white)
         .onAppear {
+            resetGame()
             self.showDoc = true
+
         }
         
         .onAppear {
             generateRandomCards()
         }
-        .id(restartView)
+        
         
     }
 }

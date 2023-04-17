@@ -28,8 +28,9 @@ struct CardView: View {
                 Text(emoji)
                     .font(.system(size:height/2))
                 Text("\(value)")
-                    .font(.system(size:width/3))
-                
+                    .font(.custom("Courier", size: width/3))
+                    
+
             }
                 .foregroundColor(.black)
         )
